@@ -1,0 +1,80 @@
+{
+  "name": "wow-miner-desktop",
+  "version": "1.0.1",
+  "description": "A local-first Windows desktop interface for Wownero solo CPU mining.",
+  "main": "src/main/index.js",
+  "author": "WOW Miner contributors",
+  "license": "MIT",
+  "homepage": "https://github.com/wownero/wownero",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/itselessar/wow-miner-desktop.git"
+  },
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron .",
+    "test": "node --test",
+    "lint": "node scripts/lint.mjs",
+    "verify": "npm run lint && npm test && node scripts/verify.mjs",
+    "vendor:fetch": "node scripts/fetch-wownero.mjs",
+    "dist:win": "npm run verify && electron-builder --win nsis portable",
+    "dist:dir": "npm run verify && electron-builder --win dir"
+  },
+  "devDependencies": {
+    "electron": "44.4.0",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "org.wownero.wowminer",
+    "productName": "WOW Miner",
+    "asar": true,
+    "asarUnpack": [
+      "resources/wownero/**"
+    ],
+    "directories": {
+      "output": "dist",
+      "buildResources": "assets"
+    },
+    "files": [
+      "src/**/*",
+      "assets/wownero.png",
+      "package.json",
+      "LICENSE",
+      "THIRD_PARTY_NOTICES.md"
+    ],
+    "extraResources": [
+      {
+        "from": "resources/wownero",
+        "to": "wownero",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "win": {
+      "icon": "assets/wownero.png",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ]
+    },
+    "nsis": {
+      "artifactName": "WOW-Miner-${version}-Setup-${arch}.${ext}",
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "shortcutName": "WOW Miner"
+    },
+    "portable": {
+      "artifactName": "WOW-Miner-${version}-Portable-${arch}.${ext}"
+    }
+  }
+}

@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <title>WOW Miner</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark"><img src="../../assets/wownero.png" alt="WOW" /></div>
+          <div><strong>WOW</strong><span>MINER</span></div>
+        </div>
+
+        <nav class="nav" aria-label="Primary navigation">
+          <button class="nav-item active" data-view="overview">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13h6V4H4v9Zm0 7h6v-4H4v4Zm10 0h6v-9h-6v9Zm0-16v4h6V4h-6Z" /></svg>
+            Overview
+          </button>
+          <button class="nav-item" data-view="miner">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.1 3.5 6.4 6.4-2.1 2.1-1.1-1.1-4.6 4.6.8.8-1.8 1.8-2.4-2.4-4.9 4.9-1.4-1.4 4.9-4.9-2.4-2.4 1.8-1.8.8.8L13 9l-1-1 2.1-4.5Z" /></svg>
+            Miner
+          </button>
+          <button class="nav-item" data-view="node">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 3 7v10l9 5 9-5V7l-9-5Zm0 2.3L18.7 8 12 11.7 5.3 8 12 4.3ZM5 9.7l6 3.3v6.4l-6-3.3V9.7Zm8 9.7V13l6-3.3v6.4l-6 3.3Z" /></svg>
+            Local node
+          </button>
+          <button class="nav-item" data-view="learn">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 1 9l4 2.2V17l7 4 7-4v-5.8L21 10v7h2V9L12 3Zm5 12.8-5 2.9-5-2.9v-3.5l5 2.7 5-2.7v3.5ZM12 12.7 5.2 9 12 5.3 18.8 9 12 12.7Z" /></svg>
+            Learn
+          </button>
+          <button class="nav-item" data-view="settings">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.4 13a7.6 7.6 0 0 0 0-2l2-1.6-2-3.4-2.4 1a8 8 0 0 0-1.7-1L15 3.5h-4L10.7 6a8 8 0 0 0-1.7 1L6.6 6l-2 3.4 2 1.6a7.6 7.6 0 0 0 0 2l-2 1.6 2 3.4L9 17a8 8 0 0 0 1.7 1l.3 2.5h4l.3-2.5a8 8 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6ZM13 16h-2l-.2-1.5-.8-.4-1.4.6-1-1.7 1.2-.9v-1.2L7.6 10l1-1.7 1.4.6.8-.4L11 7h2l.2 1.5.8.4 1.4-.6 1 1.7-1.2.9v1.2l1.2.9-1 1.7-1.4-.6-.8.4L13 16Zm-1-6.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z" /></svg>
+            Settings
+          </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="privacy-seal">
+            <span class="seal-icon">✓</span>
+            <div><strong>100% local</strong><small>No account. No telemetry.</small></div>
+          </div>
+          <button class="text-link" data-external="https://github.com/wownero/wownero">Upstream source ↗</button>
+          <span id="appVersion" class="version">WOW Miner</span>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow" id="viewEyebrow">COMMAND CENTER</p>
+            <h1 id="viewTitle">Overview</h1>
+          </div>
+          <div class="topbar-actions">
+            <div class="status-pill offline" id="globalStatus">
+              <span class="status-dot"></span><span id="globalStatusText">Node offline</span>
+            </div>
+            <button class="icon-button" id="refreshButton" title="Refresh status" aria-label="Refresh status">
+              <svg viewBox="0 0 24 24"><path d="M18.4 5.6A9 9 0 1 0 21 12h-2a7 7 0 1 1-2-4.9L14 10h7V3l-2.6 2.6Z" /></svg>
+            </button>
+          </div>
+        </header>
+
+        <div id="fatalError" class="fatal-error hidden"></div>
+
+        <section class="view active" id="view-overview">
+          <div class="hero-card">
+            <div class="hero-copy">
+              <span class="hero-kicker"><i></i> LOCAL SOLO MINING</span>
+              <h2>Your CPU.<br />Your node. <em>Your WOW.</em></h2>
+              <p>Run the real Wownero network stack on this PC. No pool, no account, no middleman.</p>
+              <div class="hero-actions">
+                <button class="primary-button" data-action="start-node">
+                  <span class="button-glyph">▶</span><span>Start local node</span>
+                </button>
+                <button class="secondary-button" data-go="learn">How it works</button>
+              </div>
+            </div>
+            <div class="hero-visual" aria-hidden="true">
+              <div class="orbit orbit-a"></div>
+              <div class="orbit orbit-b"></div>
+              <div class="logo-core"><img src="../../assets/wownero.png" alt="" /></div>
+              <span class="orbit-label label-cpu">CPU</span>
+              <span class="orbit-label label-pow">POW</span>
+              <span class="orbit-label label-local">LOCAL</span>
+            </div>
+          </div>
+
+          <div class="metric-grid">
+            <article class="metric-card accent">
+              <span class="metric-label">HASH RATE</span>
+              <strong id="overviewHashrate">—</strong>
+              <small id="overviewHashCaption">Miner idle</small>
+            </article>
+            <article class="metric-card">
+              <span class="metric-label">CHAIN HEIGHT</span>
+              <strong id="overviewHeight">—</strong>
+              <small id="overviewHeightCaption">Start your node</small>
+            </article>
+            <article class="metric-card">
+              <span class="metric-label">NETWORK</span>
+              <strong id="overviewNetworkHash">—</strong>
+              <small>Estimated total hash rate</small>
+            </article>
+            <article class="metric-card">
+              <span class="metric-label">PEERS</span>
+              <strong id="overviewPeers">—</strong>
+              <small id="overviewPeerCaption">Incoming + outgoing</small>
+            </article>
+          </div>
+
+          <div class="overview-grid">
+            <article class="panel sync-panel">
+              <div class="panel-heading">
+                <div><span class="section-kicker">LOCAL NODE</span><h3>Synchronization</h3></div>
+                <span class="small-badge" id="syncBadge">OFFLINE</span>
+              </div>
+              <div class="sync-content">
+                <div class="sync-ring" id="syncRing"><div><strong id="syncPercent">0%</strong><span>synced</span></div></div>
+                <div class="sync-details">
+                  <div><span>Local height</span><strong id="localHeight">—</strong></div>
+                  <div><span>Target height</span><strong id="targetHeight">—</strong></div>
+                  <div><span>Database</span><strong id="databaseSize">—</strong></div>
+                  <div><span>Daemon</span><strong id="daemonVersion">—</strong></div>
+                </div>
+              </div>
+              <div class="progress-track"><i id="syncProgress"></i></div>
+              <p class="panel-note" id="syncNote">Start the local node to download and validate the Wownero blockchain.</p>
+            </article>
+
+            <article class="panel launch-panel">
+              <div class="panel-heading"><div><span class="section-kicker">QUICK START</span><h3>Three steps to WOW</h3></div></div>
+              <ol class="checklist">
+                <li id="stepNode"><span>1</span><div><strong>Start your node</strong><small>Connect and synchronize locally</small></div><i>○</i></li>
+                <li id="stepAddress"><span>2</span><div><strong>Add a primary address</strong><small>Rewards go directly to your wallet</small></div><i>○</i></li>
+                <li id="stepMine"><span>3</span><div><strong>Start solo mining</strong><small>Put your CPU to work</small></div><i>○</i></li>
+              </ol>
+              <button class="wide-button" data-go="miner">Open miner <span>→</span></button>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-miner">
+          <div class="preflight" id="minerPreflight"><span>!</span><div><strong>Node required</strong><p>Start and synchronize your local node before mining.</p></div><button data-action="start-node">Start node</button></div>
+
+          <div class="miner-grid">
+            <article class="panel mining-control">
+              <div class="panel-heading">
+                <div><span class="section-kicker">RANDOMWOW · CPU</span><h3>Solo miner</h3></div>
+                <span class="small-badge" id="miningBadge">IDLE</span>
+              </div>
+
+              <label class="field-label" for="minerAddress">Primary Wownero address</label>
+              <div class="address-field">
+                <span class="field-icon">W</span>
+                <input id="minerAddress" type="text" spellcheck="false" autocomplete="off" placeholder="Wo…" maxlength="200" />
+                <span class="address-type">PRIMARY</span>
+              </div>
+              <p class="field-help">Mining rewards go directly here. Subaddresses are not supported.</p>
+
+              <div class="thread-heading">
+                <label class="field-label" for="threadSlider">CPU threads</label>
+                <strong><span id="threadValue">1</span> / <span id="threadMax">1</span></strong>
+              </div>
+              <input class="range" id="threadSlider" type="range" min="1" max="1" value="1" />
+              <div class="profile-row">
+                <button data-profile="efficient">Efficient</button>
+                <button class="active" data-profile="balanced">Balanced</button>
+                <button data-profile="maximum">Maximum</button>
+              </div>
+
+              <div class="cpu-card">
+                <span class="cpu-icon"><svg viewBox="0 0 24 24"><path d="M9 2h2v3h2V2h2v3h1a3 3 0 0 1 3 3v1h3v2h-3v2h3v2h-3v1a3 3 0 0 1-3 3h-1v3h-2v-3h-2v3H9v-3H8a3 3 0 0 1-3-3v-1H2v-2h3v-2H2V9h3V8a3 3 0 0 1 3-3h1V2Zm-1 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H8Zm2 3h4v4h-4v-4Z" /></svg></span>
+                <div><strong id="cpuModel">Detecting CPU…</strong><small id="cpuSummary">Local RandomWOW miner</small></div>
+              </div>
+
+              <button class="mine-button" id="mineButton" data-action="toggle-mining" disabled>
+                <span class="mine-icon">▶</span><span class="mine-label">Start mining</span><small>SOLO</small>
+              </button>
+              <p class="honest-note">Solo mining is probabilistic. There are no “shares”—you earn the entire reward only when this PC finds a block.</p>
+            </article>
+
+            <div class="miner-stats">
+              <article class="panel hashrate-panel">
+                <div class="panel-heading">
+                  <div><span class="section-kicker">LIVE PERFORMANCE</span><h3>Hash rate</h3></div>
+                  <div class="live-value"><strong id="liveHashrate">0</strong><span>H/s</span></div>
+                </div>
+                <div class="chart-wrap"><canvas id="hashrateChart" width="720" height="230"></canvas><div class="chart-empty" id="chartEmpty">Start mining to see live performance</div></div>
+                <div class="chart-legend"><span><i></i>Local hash rate</span><small>Last 2 minutes</small></div>
+              </article>
+              <div class="mini-stat-grid">
+                <article class="mini-stat"><span>SESSION</span><strong id="sessionTime">00:00:00</strong><small>Current run</small></article>
+                <article class="mini-stat"><span>EXPECTED BLOCK</span><strong id="expectedBlock">—</strong><small>Statistical estimate</small></article>
+                <article class="mini-stat"><span>BLOCK REWARD</span><strong id="blockReward">—</strong><small>WOW · current template</small></article>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="view" id="view-node">
+          <div class="node-grid">
+            <article class="panel node-identity">
+              <div class="node-orb"><img src="../../assets/wownero.png" alt="WOW" /><i id="nodeOrbDot"></i></div>
+              <span class="section-kicker">WOWNEROD.EXE</span>
+              <h2 id="nodeStateTitle">Local node offline</h2>
+              <p id="nodeStateCopy">Your node verifies every block itself and exposes RPC only to this computer.</p>
+              <div class="node-buttons">
+                <button class="primary-button" data-action="start-node">Start node</button>
+                <button class="secondary-button danger" data-action="stop-node">Stop node</button>
+              </div>
+              <div class="local-address"><span></span>RPC: 127.0.0.1:34568</div>
+            </article>
+            <article class="panel node-facts">
+              <div class="panel-heading"><div><span class="section-kicker">NETWORK</span><h3>Node details</h3></div></div>
+              <dl>
+                <div><dt>Status</dt><dd id="nodeFactStatus">Offline</dd></div>
+                <div><dt>Network</dt><dd id="nodeFactNetwork">Mainnet</dd></div>
+                <div><dt>Connections</dt><dd id="nodeFactPeers">—</dd></div>
+                <div><dt>Transaction pool</dt><dd id="nodeFactPool">—</dd></div>
+                <div><dt>Free disk space</dt><dd id="nodeFactDisk">—</dd></div>
+                <div><dt>Pruned blockchain</dt><dd id="nodeFactPruned">Enabled</dd></div>
+              </dl>
+            </article>
+          </div>
+
+          <article class="panel log-panel">
+            <div class="panel-heading">
+              <div><span class="section-kicker">LOCAL ACTIVITY</span><h3>Node log</h3></div>
+              <button class="ghost-button" data-action="clear-logs">Clear</button>
+            </div>
+            <div class="log-list" id="logList"><div class="log-placeholder">Node messages will appear here.</div></div>
+          </article>
+        </section>
+
+        <section class="view" id="view-learn">
+          <div class="learn-layout">
+            <aside class="lesson-nav">
+              <span class="section-kicker">MINING GUIDE</span>
+              <h2>Learn the stack</h2>
+              <button class="active" data-lesson="basics"><span>01</span>What you are running</button>
+              <button data-lesson="wallet"><span>02</span>Get a mining address</button>
+              <button data-lesson="sync"><span>03</span>Synchronize safely</button>
+              <button data-lesson="mining"><span>04</span>Start solo mining</button>
+              <button data-lesson="rewards"><span>05</span>Rewards and odds</button>
+              <button data-lesson="safety"><span>06</span>Safety checklist</button>
+            </aside>
+            <article class="lesson-content panel">
+              <div class="lesson active" id="lesson-basics">
+                <span class="lesson-number">LESSON 01 · 2 MIN</span><h2>You are running the network—not renting hash power.</h2>
+                <p>WOW Miner starts the official Wownero daemon on this PC. The daemon connects to peers, downloads blocks, verifies the chain, and performs RandomWOW proof-of-work with your CPU.</p>
+                <div class="lesson-diagram"><div><strong>YOUR CPU</strong><small>RandomWOW hashes</small></div><b>→</b><div><strong>LOCAL NODE</strong><small>Valid block template</small></div><b>→</b><div><strong>WOW NETWORK</strong><small>Peer-to-peer broadcast</small></div></div>
+                <div class="callout green"><strong>Fully local</strong><p>The desktop interface has no hosted backend or account system. Only `wownerod.exe` connects to Wownero peers.</p></div>
+              </div>
+              <div class="lesson" id="lesson-wallet">
+                <span class="lesson-number">LESSON 02 · 3 MIN</span><h2>Use a primary WOW address.</h2>
+                <p>Create or open a Wownero wallet using the official CLI wallet or a compatible wallet such as Stack Wallet. Copy the wallet's <strong>primary receiving address</strong>; it is 97 characters and begins with <code>Wo</code>.</p>
+                <ol class="lesson-steps"><li><span>1</span><div><strong>Open your wallet</strong><p>Use software obtained from its official source.</p></div></li><li><span>2</span><div><strong>Copy the primary address</strong><p>Do not select a subaddress—upstream mining rejects it.</p></div></li><li><span>3</span><div><strong>Paste it into Miner</strong><p>The app stores only the public address on this PC.</p></div></li></ol>
+                <div class="callout red"><strong>Never enter a seed phrase here</strong><p>WOW Miner never needs your seed, spend key, wallet password, or wallet file.</p></div>
+              </div>
+              <div class="lesson" id="lesson-sync">
+                <span class="lesson-number">LESSON 03 · 3 MIN</span><h2>Verify the chain before mining.</h2>
+                <p>On first run, your node downloads and validates the Wownero blockchain. The exact time depends on your connection, disk, and available peers. You can close the app and continue later.</p>
+                <ol class="lesson-steps"><li><span>1</span><div><strong>Click Start local node</strong><p>The app creates a private blockchain folder.</p></div></li><li><span>2</span><div><strong>Keep the PC awake</strong><p>Synchronization continues while the app and node are running.</p></div></li><li><span>3</span><div><strong>Wait for 100%</strong><p>The mining button unlocks when the daemon reports synchronized.</p></div></li></ol>
+                <div class="callout"><strong>Pruned by default</strong><p>A pruned node still validates the chain but stores less historical data.</p></div>
+              </div>
+              <div class="lesson" id="lesson-mining">
+                <span class="lesson-number">LESSON 04 · 2 MIN</span><h2>Choose how much CPU to commit.</h2>
+                <p>Start with Balanced. Efficient leaves more CPU available; Maximum uses every detected logical thread and may increase heat and fan noise.</p>
+                <div class="profile-explain"><div><strong>Efficient</strong><span>25% threads</span><p>Background use</p></div><div class="recommended"><strong>Balanced</strong><span>50% threads</span><p>Recommended</p></div><div><strong>Maximum</strong><span>100% threads</span><p>Highest load</p></div></div>
+                <div class="callout red"><strong>Watch temperatures</strong><p>The app cannot control your cooling. Stop mining if the system becomes unstable or overheats.</p></div>
+              </div>
+              <div class="lesson" id="lesson-rewards">
+                <span class="lesson-number">LESSON 05 · 3 MIN</span><h2>Solo means all-or-nothing blocks.</h2>
+                <p>Wownero is solo-mining only. There are no pool shares or smooth daily payouts. Your CPU repeatedly attempts proof-of-work; if it finds a valid block, the full block reward is sent to your mining address.</p>
+                <div class="formula"><span>Expected time</span><strong>Network difficulty ÷ your hash rate</strong><small>This is a statistical average, never a promise or countdown.</small></div>
+                <p>A block reward must mature according to Wownero's consensus rules before it becomes spendable. View it from your wallet after scanning the relevant blocks.</p>
+              </div>
+              <div class="lesson" id="lesson-safety">
+                <span class="lesson-number">LESSON 06 · 2 MIN</span><h2>Six checks before you press Start.</h2>
+                <ul class="safety-list"><li><i>✓</i>Installer came from your trusted GitHub release.</li><li><i>✓</i>Release checksum matches the published checksum.</li><li><i>✓</i>The address is your own primary WOW address.</li><li><i>✓</i>No one asked for your wallet seed or private key.</li><li><i>✓</i>Your cooling and power settings are stable.</li><li><i>✓</i>The node reports synchronized with active peers.</li></ul>
+                <button class="primary-button" data-go="miner">I’m ready to mine →</button>
+              </div>
+              <div class="lesson-footer"><button id="lessonPrevious">← Previous</button><span id="lessonProgress">1 / 6</span><button id="lessonNext">Next →</button></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-settings">
+          <div class="settings-heading"><span class="section-kicker">LOCAL PREFERENCES</span><h2>Settings</h2><p>Stored only on this Windows PC.</p></div>
+          <div class="settings-grid">
+            <article class="panel settings-card">
+              <div class="settings-icon">◫</div><div class="settings-copy"><h3>Blockchain folder</h3><p>Choose where the pruned local chain is stored.</p><div class="path-field"><span id="dataDirectory">Default app folder</span><button data-action="choose-directory">Browse</button></div><button class="text-link left" data-action="open-directory">Open folder ↗</button></div>
+            </article>
+            <article class="panel settings-card">
+              <div class="settings-icon">↻</div><div class="settings-copy"><h3>Startup</h3><p>Control how WOW Miner starts with Windows.</p><label class="toggle-row"><span><strong>Start with Windows</strong><small>Open WOW Miner after sign-in</small></span><input id="startWithWindows" type="checkbox" /><i></i></label><label class="toggle-row"><span><strong>Start node on launch</strong><small>Begin syncing automatically</small></span><input id="startNodeOnLaunch" type="checkbox" /><i></i></label></div>
+            </article>
+            <article class="panel settings-card">
+              <div class="settings-icon">▰</div><div class="settings-copy"><h3>Storage</h3><p>Pruning stores less historical chain data while fully validating blocks.</p><label class="toggle-row"><span><strong>Pruned blockchain</strong><small>Recommended for mining PCs</small></span><input id="pruneBlockchain" type="checkbox" checked /><i></i></label><small class="restart-note">Changes apply the next time the local node starts.</small></div>
+            </article>
+            <article class="panel settings-card">
+              <div class="settings-icon">☼</div><div class="settings-copy"><h3>Appearance</h3><p>Choose the interface theme.</p><div class="theme-picker"><button class="active" data-theme-value="dark">Dark</button><button data-theme-value="light">Light</button></div></div>
+            </article>
+          </div>
+          <div class="settings-actions"><span id="settingsStatus">No unsaved changes</span><button class="primary-button" data-action="save-settings">Save settings</button></div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast-region" id="toastRegion" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>

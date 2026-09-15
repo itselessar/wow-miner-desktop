@@ -1,0 +1,8 @@
+node_modules/
+dist/
+coverage/
+*.log
+resources/wownero/*
+!resources/wownero/README.md
+!resources/wownero/.gitkeep
+!resources/wownero/LICENSE.wownero
